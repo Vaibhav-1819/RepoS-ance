@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RepoSéance — Local-First AI Ghost Hunter for Abandoned Codebases</title>
+  <meta name="description" content="Local-first software archaeology tool bringing abandoned repositories back to life using open-weight AI models.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Background Glow & Grid -->
+  <div class="spectral-bg"></div>
+  <div class="grid-overlay"></div>
+
+  <!-- Header -->
+  <header class="app-header">
+    <div class="logo-group">
+      <div class="spectral-orb">👻</div>
+      <div class="brand-text">
+        <span class="brand-name">RepoSéance</span>
+        <span class="brand-tag">GHOST IN THE MACHINE</span>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <nav class="nav-tabs">
+      <button class="nav-btn active" data-tab="seance"><span class="tab-icon">🕯️</span> Séance Chamber</button>
+      <button class="nav-btn" data-tab="autopsy" id="tabAutopsyBtn"><span class="tab-icon">📜</span> Project Autopsy</button>
+      <button class="nav-btn" data-tab="chat" id="tabChatBtn"><span class="tab-icon">👻</span> Ghost Chat</button>
+      <button class="nav-btn" data-tab="roadmap" id="tabRoadmapBtn"><span class="tab-icon">🗺️</span> Revival Roadmap</button>
+      <button class="nav-btn" data-tab="settings"><span class="tab-icon">⚙️</span> Settings</button>
+    </nav>
+
+    <!-- Status Badges -->
+    <div class="header-status">
+      <div class="badge status-pill" id="ollamaStatusPill">
+        <span class="status-dot green"></span>
+        <span id="ollamaStatusText">Local AI: Ready</span>
+      </div>
+      <div class="badge offline-pill">
+        <span>🔒 100% Offline</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Wrapper -->
+  <main class="app-container">
+
+    <!-- TAB 1: SÉANCE CHAMBER (IMPORT & LANDING) -->
+    <section id="tab-seance" class="tab-content active">
+      <div class="hero-section">
+        <div class="hero-badge">HACKTOBERFEST 2026 • OPEN-SOURCE AI</div>
+        <h1 class="hero-title">Which forgotten codebase shall we bring back to life?</h1>
+        <p class="hero-subtitle">
+          Every repository has a story. Some are simply waiting for someone to understand them.
+          Extract architectures, unearth hidden TODOs, and summon the code with local AI.
+        </p>
+
+        <!-- Summoning Box -->
+        <div class="summon-card">
+          <div class="card-glow-border"></div>
+          
+          <div class="import-options">
+            <!-- Option A: Path Input -->
+            <div class="import-block">
+              <label for="localPathInput" class="input-label">Local Repository Directory Path</label>
+              <div class="input-row">
+                <input type="text" id="localPathInput" placeholder="e.g. D:/Projects/legacy-repo or ./sample_abandoned_repo" class="text-input">
+                <button class="action-btn primary-btn" id="startPathAnalysisBtn">
+                  <span>Initiate Séance</span> 🔮
+                </button>
+              </div>
+            </div>
+
+            <div class="divider"><span>OR</span></div>
+
+            <!-- Option B: ZIP Upload -->
+            <div class="import-block">
+              <label class="input-label">Upload Repository Archive (.ZIP)</label>
+              <div class="drop-zone" id="zipDropZone">
+                <div class="drop-icon">📦</div>
+                <div class="drop-text">Drag & drop a repository ZIP file here, or <span class="browse-link">browse</span></div>
+                <input type="file" id="zipFileInput" accept=".zip" style="display:none;">
+              </div>
+            </div>
+
+            <!-- Quick Demo Button -->
+            <div class="fixture-banner">
+              <span>Want to test immediately?</span>
+              <button class="fixture-btn" id="loadSampleRepoBtn">⚡ Summon Bundled Sample Repo (Legacy Audio Streamer)</button>
+            </div>
+          </div>
+
+          <!-- Progress Pipeline -->
+          <div class="pipeline-card" id="pipelineCard" style="display:none;">
+            <h3 class="pipeline-title">Séance in Progress...</h3>
+            <div class="pipeline-steps">
+              <div class="p-step active" id="pStep1"><span class="step-num">1</span> Validating Structure</div>
+              <div class="p-step" id="pStep2"><span class="step-num">2</span> Redacting Secrets</div>
+              <div class="p-step" id="pStep3"><span class="step-num">3</span> Scanning Git & Manifests</div>
+              <div class="p-step" id="pStep4"><span class="step-num">4</span> Indexing Evidence</div>
+              <div class="p-step" id="pStep5"><span class="step-num">5</span> Consulting Local AI</div>
+            </div>
+            <div class="status-message" id="pipelineStatusMsg">Inspecting repository files...</div>
+          </div>
+        </div>
+
+        <!-- Previous Séances -->
+        <div class="recent-projects-card" id="recentProjectsCard">
+          <h3 class="recent-title">📜 Archived Séances on this Machine</h3>
+          <div class="projects-list" id="projectsList">
+            <div class="empty-state">No archived repositories yet. Summon your first codebase above!</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: PROJECT AUTOPSY -->
+    <section id="tab-autopsy" class="tab-content">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title" id="autopsyProjectName">Project Autopsy</h2>
+          <p class="section-sub" id="autopsySourcePath">Source: /</p>
+        </div>
+        <div class="header-actions">
+          <button class="action-btn outline-btn" id="exportDossierTopBtn">📥 Export Markdown Dossier</button>
+        </div>
+      </div>
+
+      <!-- Quick Metrics Bar -->
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-icon">📁</div>
+          <div class="metric-info">
+            <span class="metric-value" id="metricTotalFiles">0</span>
+            <span class="metric-label">Files Scanned</span>
+          </div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-icon">⏳</div>
+          <div class="metric-info">
+            <span class="metric-value" id="metricDormantDays">0</span>
+            <span class="metric-label">Days Dormant</span>
+          </div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-icon">📌</div>
+          <div class="metric-info">
+            <span class="metric-value" id="metricTodoCount">0</span>
+            <span class="metric-label">TODO / FIXME Markers</span>
+          </div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-icon">🌱</div>
+          <div class="metric-info">
+            <span class="metric-value" id="metricCommitCount">0</span>
+            <span class="metric-label">Git Commits</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Autopsy Main Grid -->
+      <div class="autopsy-grid">
+        <!-- Purpose & Architecture -->
+        <div class="card card-span-2">
+          <div class="card-header">
+            <h3>👁️ Project Purpose & Architecture</h3>
+            <span class="badge purple" id="autopsyEngineBadge">Local AI Engine</span>
+          </div>
+          <div class="card-body">
+            <div class="purpose-box">
+              <label>Reconstructed Purpose:</label>
+              <p id="autopsyPurposeText" class="highlight-text">Waiting for analysis...</p>
+            </div>
+            <div class="arch-box">
+              <label>Structural Architecture:</label>
+              <p id="autopsyArchText">Waiting for analysis...</p>
+            </div>
+            <div class="entrypoints-box">
+              <label>Detected Entry Points:</label>
+              <div class="chips-row" id="autopsyEntryPoints"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Languages & Manifests -->
+        <div class="card">
+          <div class="card-header">
+            <h3>💻 Languages & Ecosystem</h3>
+          </div>
+          <div class="card-body">
+            <div class="sub-list" id="autopsyLanguagesList"></div>
+            <h4 class="sub-heading">Dependency Manifests</h4>
+            <div class="sub-list" id="autopsyManifestsList"></div>
+          </div>
+        </div>
+
+        <!-- Verified Facts vs Hypotheses -->
+        <div class="card card-span-2">
+          <div class="card-header">
+            <h3>⚖️ Verified Facts vs. Hypotheses</h3>
+            <span class="sub-tip">Distinguishing verifiable code evidence from AI speculation</span>
+          </div>
+          <div class="card-body table-responsive">
+            <table class="evidence-table">
+              <thead>
+                <tr>
+                  <th style="width: 15%;">Classification</th>
+                  <th style="width: 60%;">Finding / Description</th>
+                  <th style="width: 25%;">Citation / Basis</th>
+                </tr>
+              </thead>
+              <tbody id="autopsyFactsTableBody">
+                <tr><td colspan="3" class="text-muted">No findings recorded.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- TODO and Incomplete Work Inventory -->
+        <div class="card">
+          <div class="card-header">
+            <h3>🚧 Unfinished Work & TODOs</h3>
+          </div>
+          <div class="card-body">
+            <div class="todo-list" id="autopsyTodoList">
+              <div class="text-muted">No pending TODOs detected.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: GHOST CHAT -->
+    <section id="tab-chat" class="tab-content">
+      <div class="chat-container">
+        <!-- Chat Sidebar -->
+        <aside class="chat-sidebar">
+          <h3 class="sidebar-title">🕯️ Séance Inquiries</h3>
+          <p class="sidebar-hint">Ask The Ghost anything about the indexed codebase. Answers include exact file citations.</p>
+          
+          <div class="prompt-chips">
+            <button class="chip-btn" data-prompt="What was this project originally designed to do?">Original Purpose?</button>
+            <button class="chip-btn" data-prompt="Explain the primary entry point and how execution flows.">Execution Flow?</button>
+            <button class="chip-btn" data-prompt="What appears unfinished, broken, or left as a TODO?">Unfinished Features?</button>
+            <button class="chip-btn" data-prompt="Which dependencies may cause breaking bugs or need modernization?">Dependency Risks?</button>
+            <button class="chip-btn" data-prompt="How should a developer make their first contribution?">First Contribution?</button>
+          </div>
+
+          <div class="privacy-note">
+            <span>🛡️ Guardrail: </span> Evidence chunks are strictly bounded and secret-masked before inference.
+          </div>
+        </aside>
+
+        <!-- Main Chat Area -->
+        <div class="chat-main">
+          <div class="chat-messages" id="chatMessages">
+            <div class="msg ghost-msg">
+              <div class="msg-avatar">👻</div>
+              <div class="msg-bubble">
+                <p>I am RepoSéance. The repository whispers its forgotten patterns. Ask your question, and I will summon the evidence from the codebase archives.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Chat Input -->
+          <div class="chat-input-row">
+            <input type="text" id="chatInput" placeholder="Ask The Ghost about functions, bugs, architecture..." class="text-input">
+            <button class="action-btn primary-btn" id="sendChatBtn">
+              <span>Summon</span> ✦
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 4: REVIVAL ROADMAP -->
+    <section id="tab-roadmap" class="tab-content">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Revival Roadmap</h2>
+          <p class="section-sub">Prioritized triage plan to modernize, test, and resurrect this codebase.</p>
+        </div>
+        <button class="action-btn primary-btn" id="exportDossierBtn">
+          <span>Export Markdown Dossier</span> 📥
+        </button>
+      </div>
+
+      <!-- Roadmap Kanban Grid -->
+      <div class="roadmap-grid" id="roadmapGrid">
+        <!-- Columns will be injected dynamically by app.js -->
+      </div>
+    </section>
+
+    <!-- TAB 5: SETTINGS -->
+    <section id="tab-settings" class="tab-content">
+      <div class="settings-card">
+        <h2 class="settings-title">⚙️ Local AI & Séance Settings</h2>
+        
+        <div class="setting-item">
+          <label>Ollama Inference Endpoint</label>
+          <div class="input-row">
+            <input type="text" id="settingOllamaUrl" value="http://localhost:11434" class="text-input">
+            <button class="action-btn outline-btn" id="testOllamaBtn">Test Connection</button>
+          </div>
+          <span class="setting-hint">Standard local Ollama endpoint running on your machine.</span>
+        </div>
+
+        <div class="setting-item">
+          <label>Configured Open-Weight Model</label>
+          <select id="settingModelSelect" class="text-input">
+            <option value="qwen2.5-coder:7b">Qwen 2.5 Coder (7B) - High Accuracy</option>
+            <option value="qwen2.5:3b">Qwen 2.5 (3B) - Balanced</option>
+            <option value="qwen2.5:1.5b">Qwen 2.5 (1.5B) - Ultra Fast</option>
+            <option value="gemma2:2b">Gemma 2 (2B) - Lightweight</option>
+            <option value="llama3.2:1b">Llama 3.2 (1B) - CPU Friendly</option>
+          </select>
+          <span class="setting-hint">Choose any model pulled in your local Ollama runtime.</span>
+        </div>
+
+        <div class="setting-item">
+          <button class="action-btn primary-btn" id="saveSettingsBtn">Save Settings</button>
+          <span id="settingsSaveStatus" class="save-status"></span>
+        </div>
+
+        <hr class="card-divider">
+
+        <div class="privacy-guarantee-card">
+          <h3>🛡️ Privacy & Offline Architecture</h3>
+          <ul>
+            <li><strong>Zero Remote AI APIs:</strong> All analysis and chat run through your local machine's Ollama or heuristic engine.</li>
+            <li><strong>Secret Masker:</strong> API keys, bearer tokens, AWS credentials, and DB passwords are wiped prior to indexing.</li>
+            <li><strong>Read-Only Safety:</strong> RepoSéance never executes imported code or scripts.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
